@@ -8,9 +8,11 @@ Key Points :
 5. **HAL Browser**.
 6. **H2 embedded DB** as Relational DB
 - **CommandLineRunner** for loading TourPackage and Tour data.
-7. **MongoDB** for non-relational data.
-- Tour data can have varying number of fields with tourPackage and title being only required field. \
 
+
+##.Project has been implemented using **MongoDB** for non-relational data [branch : exporeCali_MongoDB]
+Requirement : Tour data can have varying number of fields with tourPackage and title being only required field. \
+Refer link : [how-to-use-embedded-mongodb-with-springboot-v3-0-0](doc:https://stackoverflow.com/questions/74734106/how-to-use-embedded-mongodb-with-springboot-v3-0-0)
   
 **Model** :
 1. *TourPackage* \
