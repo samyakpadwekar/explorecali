@@ -11,7 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 /**
  * Tour Rating Controller
@@ -47,6 +50,34 @@ public class TourRatingController {
         Tour tour = verifyTour(tourId);
         tourRatingRepository.save(new TourRating( new TourRatingPk(tour, ratingDto.getCustomerId()),
                 ratingDto.getScore(), ratingDto.getComment()));
+    }
+    
+    /**
+     * Lookup a the Ratings for a tour.
+     *
+     * @param tourId Tour Identifier
+     * @return All Tour Ratings as RatingDto's
+     */
+    @GetMapping
+    public List<RatingDto> getAllRatingsForTour(@PathVariable(value = "tourId") int tourId) {
+        verifyTour(tourId);
+        return tourRatingRepository.findByPkTourId(tourId).stream()
+                .map(RatingDto::new).collect(Collectors.toList());
+    }
+
+    /**
+     * Calculate the average Score of a Tour.
+     *
+     * @param tourId tour identifier
+     * @return Tuple of "average" and the average value.
+     */
+    @GetMapping(path = "/average")
+    public Map<String, Double> getAverage(@PathVariable(value = "tourId") int tourId) {
+        verifyTour(tourId);
+        return Map.of("average",tourRatingRepository.findByPkTourId(tourId).stream()
+                .mapToInt(TourRating::getScore).average()
+                .orElseThrow(() ->
+                new NoSuchElementException("Tour has no Ratings")));
     }
 
     /**
