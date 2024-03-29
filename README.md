@@ -12,7 +12,7 @@ Key Points :
 
 ##.Project has been implemented using **MongoDB** for non-relational data [branch : exporeCali_MongoDB]
 Requirement : Tour data can have varying number of fields with tourPackage and title being only required field. \
-Refer link : [how-to-use-embedded-mongodb-with-springboot-v3-0-0](doc:linking-to-pages#https://stackoverflow.com/questions/74734106/how-to-use-embedded-mongodb-with-springboot-v3-0-0)
+Refer link : <a href="https://stackoverflow.com/questions/74734106/how-to-use-embedded-mongodb-with-springboot-v3-0-0" target="_blank">how-to-use-embedded-mongodb-with-springboot-v3-0-0</a>
   
 **Model** :
 1. *TourPackage* \
