@@ -409,7 +409,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"score\":3,\r\n    \"comment\":\"It was average\",\r\n    \"customerId\":4\r\n}",
+							"raw": "{\r\n    \"score\":1,\r\n    \"comment\":\"It was worse\",\r\n    \"customerId\":7\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -417,7 +417,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/tours/2/ratings",
+							"raw": "http://localhost:8080/tours/6606cdf5af9f954ca95e4e1d/ratings",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -425,7 +425,7 @@
 							"port": "8080",
 							"path": [
 								"tours",
-								"2",
+								"6606cdf5af9f954ca95e4e1d",
 								"ratings"
 							]
 						}
@@ -438,7 +438,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/tours/2/ratings",
+							"raw": "http://localhost:8080/tours/6606cdf5af9f954ca95e4e1d/ratings",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -446,7 +446,7 @@
 							"port": "8080",
 							"path": [
 								"tours",
-								"2",
+								"6606cdf5af9f954ca95e4e1d",
 								"ratings"
 							]
 						}
@@ -457,7 +457,21 @@
 					"name": "getAverageRating",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tours/2/ratings/average",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours",
+								"2",
+								"ratings",
+								"average"
+							]
+						}
 					},
 					"response": []
 				},
@@ -494,16 +508,52 @@
 				{
 					"name": "updateRating(patch)",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"score\":2,\r\n    \"comment\":\"It was worse\",\r\n    \"customerId\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/tours/2/ratings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours",
+								"2",
+								"ratings"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "deleteRating",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tours/2/ratings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours",
+								"2",
+								"ratings",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
