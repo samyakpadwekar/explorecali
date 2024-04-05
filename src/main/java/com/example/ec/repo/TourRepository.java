@@ -15,8 +15,6 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
  * Tour Repository Interface
- *
- * Created by Mary Ellen Bowman
  */
 public interface TourRepository extends PagingAndSortingRepository<Tour, Integer>,CrudRepository<Tour, Integer> {
 //public interface TourRepository extends JpaRepository<Tour, Integer> {	

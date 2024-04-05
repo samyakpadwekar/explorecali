@@ -14,7 +14,7 @@ import java.util.Optional;
 /**
  * Tour Rating Repository Interface
  */
-//to prevent this repo from being exposed to spring data rest
+//to prevent this repo from being exposed to spring data rest,only expose by controller
 @RepositoryRestResource(exported = false)
 public interface TourRatingRepository extends CrudRepository<TourRating, TourRatingPk> {
 
