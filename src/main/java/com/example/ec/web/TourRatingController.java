@@ -7,7 +7,6 @@ import com.example.ec.dto.RatingDto;
 import com.example.ec.repo.TourRatingRepository;
 import com.example.ec.repo.TourRepository;
 import com.example.ec.service.TourRatingService;
-import com.example.ec.service.TourService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,31 +16,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 /**
  * Tour Rating Controller
- *
- * Created by Mary Ellen Bowman
  */
 @RestController
 @RequestMapping(path = "/tours/{tourId}/ratings")
 public class TourRatingController {
 	private TourRatingRepository tourRatingRepository;
 	private TourRepository tourRepository;
-	private TourService tourService;
 	private TourRatingService tourRatingService;
 
 	@Autowired
 	public TourRatingController(TourRatingRepository tourRatingRepository, TourRepository tourRepository,
-			TourService tourService, TourRatingService tourRatingService) {
+			TourRatingService tourRatingService) {
 		super();
 		this.tourRatingRepository = tourRatingRepository;
 		this.tourRepository = tourRepository;
-		this.tourService = tourService;
 		this.tourRatingService = tourRatingService;
 	}
 
@@ -59,29 +53,25 @@ public class TourRatingController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createTourRating(@PathVariable(value = "tourId") int tourId,
 			@RequestBody @Validated RatingDto ratingDto) {
-		Tour tour = tourService.verifyTour(tourId);
+		Tour tour = verifyTour(tourId);
 		tourRatingRepository.save(new TourRating(new TourRatingPk(tour, ratingDto.getCustomerId()),
 				ratingDto.getScore(), ratingDto.getComment()));
 	}
 
 	/**
-     * Lookup a page of Ratings for a tour.
-     *
-     * @param tourId Tour Identifier
-     * @param pageable paging details
-     * @return Requested page of Tour Ratings as RatingDto's
-     */
-    @GetMapping
-    public Page<RatingDto> getAllRatingsForTour(@PathVariable(value = "tourId") int tourId,
-                                            Pageable pageable){
-    	tourService.verifyTour(tourId);
-        Page<TourRating> ratings = tourRatingRepository.findByPkTourId(tourId, pageable);
-        return new PageImpl<>(
-                ratings.get().map(RatingDto::new).collect(Collectors.toList()),
-                pageable,
-                ratings.getTotalElements()
-        );
-    }
+	 * Lookup a page of Ratings for a tour.
+	 *
+	 * @param tourId   Tour Identifier
+	 * @param pageable paging details
+	 * @return Requested page of Tour Ratings as RatingDto's
+	 */
+	@GetMapping
+	public Page<RatingDto> getAllRatingsForTour(@PathVariable(value = "tourId") int tourId, Pageable pageable) {
+		verifyTour(tourId);
+		Page<TourRating> ratings = tourRatingRepository.findByPkTourId(tourId, pageable);
+		return new PageImpl<>(ratings.get().map(RatingDto::new).collect(Collectors.toList()), pageable,
+				ratings.getTotalElements());
+	}
 
 	/**
 	 * Calculate the average Score of a Tour.
@@ -91,7 +81,7 @@ public class TourRatingController {
 	 */
 	@GetMapping(path = "/average")
 	public Map<String, Double> getAverage(@PathVariable(value = "tourId") int tourId) {
-		tourService.verifyTour(tourId);
+		verifyTour(tourId);
 		return Map.of("average", tourRatingRepository.findByPkTourId(tourId).stream().mapToInt(TourRating::getScore)
 				.average().orElseThrow(() -> new NoSuchElementException("Tour has no Ratings")));
 	}
@@ -145,16 +135,15 @@ public class TourRatingController {
 	}
 
 	/**
-	 * Exception handler if NoSuchElementException is thrown in this Controller
+	 * Verify and return the Tour given a tourId.
 	 *
-	 * @param ex exception
-	 * @return Error message String.
-	 *//*
-		 * @ResponseStatus(HttpStatus.NOT_FOUND)
-		 * 
-		 * @ExceptionHandler(NoSuchElementException.class) public String
-		 * return400(NoSuchElementException ex) { return ex.getMessage();
-		 * 
-		 * }
-		 */
+	 * @param tourId tour identifier
+	 * @return the found Tour
+	 * @throws NoSuchElementException if no Tour found.
+	 */
+	public Tour verifyTour(int tourId) throws NoSuchElementException {
+		return tourRepository.findById(tourId)
+				.orElseThrow(() -> new NoSuchElementException("Tour does not exist " + tourId));
+	}
+
 }
