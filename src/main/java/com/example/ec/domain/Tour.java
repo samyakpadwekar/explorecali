@@ -36,14 +36,14 @@ public class Tour {
 
 
     @ManyToOne
+    @JoinColumn(name="tour_package_code")
     private TourPackage tourPackage;
 
     @Column
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Difficulty difficulty;
 
     @Column
-    @Enumerated
     private Region region;
 
     public Tour(String title, String description, String blurb, Integer price, String duration, String bullets,
