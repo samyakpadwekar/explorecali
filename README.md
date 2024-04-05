@@ -28,3 +28,5 @@ Field : Tour tour; int customerId;
 Easy; Medium; Difficult; Varies;
 7. *Region(enum)* \
 Central_Coast; Southern_California; Northern_California; Varies;
+
+UI link : <a href="https://explorecalifornia.org/" target="_blank">explorecalifornia.org</a>
