@@ -29,7 +29,7 @@ public class RatingDto {
      * @param tourRating Tour Rating Object
      */
     public RatingDto(TourRating tourRating) {
-        this(tourRating.getScore(), tourRating.getComment(), tourRating.getPk().getCustomerId());
+        this(tourRating.getScore(), tourRating.getComment(), tourRating.getCustomerId());
     }
     /**
      * Constructor to fully initialize the RatingDto
@@ -38,7 +38,7 @@ public class RatingDto {
      * @param comment comment
      * @param customerId customer identifier
      */
-    private RatingDto(Integer score, String comment, Integer customerId) {
+    public RatingDto(Integer score, String comment, Integer customerId) {
         this.score = score;
         this.comment = comment;
         this.customerId = customerId;
