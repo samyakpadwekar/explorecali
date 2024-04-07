@@ -2,12 +2,13 @@ package com.example.ec.web;
 
 import com.example.ec.domain.Tour;
 import com.example.ec.domain.TourRating;
-import com.example.ec.domain.TourRatingPk;
 import com.example.ec.dto.RatingDto;
 import com.example.ec.repo.TourRatingRepository;
 import com.example.ec.repo.TourRepository;
 import com.example.ec.service.TourRatingService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(path = "/tours/{tourId}/ratings")
 public class TourRatingController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TourRatingController.class);
 	private TourRatingRepository tourRatingRepository;
 	private TourRepository tourRepository;
 	private TourRatingService tourRatingService;
@@ -53,11 +55,26 @@ public class TourRatingController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createTourRating(@PathVariable(value = "tourId") int tourId,
 			@RequestBody @Validated RatingDto ratingDto) {
-		Tour tour = verifyTour(tourId);
-		tourRatingRepository.save(new TourRating(new TourRatingPk(tour, ratingDto.getCustomerId()),
-				ratingDto.getScore(), ratingDto.getComment()));
+		LOGGER.info("POST /tours/{}/ratings", tourId);
+        tourRatingService.createNew(tourId, ratingDto.getCustomerId(), ratingDto.getScore(), ratingDto.getComment());
 	}
 
+	/**
+     * Create Several Tour Ratings for one tour, score and several customers.
+     *
+     * @param tourId
+     * @param score
+     * @param customers
+     */
+    @PostMapping("/{score}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createManyTourRatings(@PathVariable(value = "tourId") int tourId,
+                                      @PathVariable(value = "score") int score,
+                                      @RequestParam("customers") Integer customers[]) {
+        LOGGER.info("POST /tours/{}/ratings/{}", tourId, score);
+        tourRatingService.rateMany(tourId, score, customers);
+    }
+	
 	/**
 	 * Lookup a page of Ratings for a tour.
 	 *
@@ -68,7 +85,7 @@ public class TourRatingController {
 	@GetMapping
 	public Page<RatingDto> getAllRatingsForTour(@PathVariable(value = "tourId") int tourId, Pageable pageable) {
 		verifyTour(tourId);
-		Page<TourRating> ratings = tourRatingRepository.findByPkTourId(tourId, pageable);
+		Page<TourRating> ratings = tourRatingRepository.findByTourId(tourId, pageable);
 		return new PageImpl<>(ratings.get().map(RatingDto::new).collect(Collectors.toList()), pageable,
 				ratings.getTotalElements());
 	}
@@ -82,8 +99,7 @@ public class TourRatingController {
 	@GetMapping(path = "/average")
 	public Map<String, Double> getAverage(@PathVariable(value = "tourId") int tourId) {
 		verifyTour(tourId);
-		return Map.of("average", tourRatingRepository.findByPkTourId(tourId).stream().mapToInt(TourRating::getScore)
-				.average().orElseThrow(() -> new NoSuchElementException("Tour has no Ratings")));
+		return Map.of("average", tourRatingService.getAverageScore(tourId));
 	}
 
 	/**
@@ -96,10 +112,16 @@ public class TourRatingController {
 	@PutMapping
 	public RatingDto updateWithPut(@PathVariable(value = "tourId") int tourId,
 			@RequestBody @Validated RatingDto ratingDto) {
-		TourRating rating = tourRatingService.verifyTourRating(tourId, ratingDto.getCustomerId());
-		rating.setScore(ratingDto.getScore());
-		rating.setComment(ratingDto.getComment());
-		return new RatingDto(tourRatingRepository.save(rating));
+		LOGGER.info("PUT /tours/{}/ratings", tourId);
+        return new RatingDto(tourRatingService.update(tourId, ratingDto.getCustomerId(),
+                 ratingDto.getScore(), ratingDto.getComment()));
+		
+		/*
+		 * TourRating rating = tourRatingService.verifyTourRating(tourId,
+		 * ratingDto.getCustomerId()); rating.setScore(ratingDto.getScore());
+		 * rating.setComment(ratingDto.getComment()); return new
+		 * RatingDto(tourRatingRepository.save(rating));
+		 */
 	}
 
 	/**
@@ -112,14 +134,9 @@ public class TourRatingController {
 	@PatchMapping
 	public RatingDto updateWithPatch(@PathVariable(value = "tourId") int tourId,
 			@RequestBody @Validated RatingDto ratingDto) {
-		TourRating rating = tourRatingService.verifyTourRating(tourId, ratingDto.getCustomerId());
-		if (ratingDto.getScore() != null) {
-			rating.setScore(ratingDto.getScore());
-		}
-		if (ratingDto.getComment() != null) {
-			rating.setComment(ratingDto.getComment());
-		}
-		return new RatingDto(tourRatingRepository.save(rating));
+		LOGGER.info("PATCH /tours/{}/ratings", tourId);
+		return new RatingDto(tourRatingService.updateSome(tourId, ratingDto.getCustomerId(),
+                ratingDto.getScore(), ratingDto.getComment()));
 	}
 
 	/**
@@ -130,8 +147,8 @@ public class TourRatingController {
 	 */
 	@DeleteMapping(path = "/{customerId}")
 	public void delete(@PathVariable(value = "tourId") int tourId, @PathVariable(value = "customerId") int customerId) {
-		TourRating rating = tourRatingService.verifyTourRating(tourId, customerId);
-		tourRatingRepository.delete(rating);
+		LOGGER.info("DELETE /tours/{}/ratings/{}", tourId, customerId);
+        tourRatingService.delete(tourId, customerId);
 	}
 
 	/**
