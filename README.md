@@ -5,10 +5,11 @@ Key Things Implemented:
 2. **PagingAndSorting** for Tour and Tour Rating. 
 3. **Controlling API Exposure** - use of @RepositoryRestResource,@RestResource.
 4. **slf4j Logger** for Logging
-5. **JUnit and Mockito** for Unit, Integration and API Testing 
-6. **HAL Browser** and **Open API** for API documentation. 
-7. **H2 embedded DB** as Relational DB
-8. **CommandLineRunner** for loading TourPackage and Tour data and testing through command line.
+5. **JUnit and Mockito** for Unit, Integration and API Test cases. 
+6. **HAL Browser** for testing.
+7. **Open API** for API documentation. 
+8. **H2 embedded DB** as Relational DB
+9. **CommandLineRunner** for loading TourPackage and Tour data and testing through command line.
 
 Things to do:
 1. Versioning
