@@ -6,7 +6,7 @@ Key Things Implemented:
 3. **Controlling API Exposure** - use of @RepositoryRestResource,@RestResource.
 4. **slf4j Logger** for Logging
 5. **JUnit and Mockito** for Unit, Integration and API Testing 
-6. **HAL Browser** and **Open API Swagger UI** for API documentation. 
+6. **HAL Browser** and **Open API** for API documentation. 
 7. **H2 embedded DB** as Relational DB
 8. **CommandLineRunner** for loading TourPackage and Tour data and testing through command line.
 
