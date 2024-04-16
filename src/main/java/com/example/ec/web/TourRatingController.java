@@ -7,6 +7,11 @@ import com.example.ec.repo.TourRatingRepository;
 import com.example.ec.repo.TourRepository;
 import com.example.ec.service.TourRatingService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +31,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping(path = "/tours/{tourId}/ratings")
+@Tag(name = "Tour Rating", description = "The Tour Rating API")
 public class TourRatingController {
     private static final Logger LOGGER = LoggerFactory.getLogger(TourRatingController.class);
 	private TourRatingRepository tourRatingRepository;
@@ -53,6 +59,7 @@ public class TourRatingController {
 	 */
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
+	@Operation(summary = "Create tour rating")
 	public void createTourRating(@PathVariable(value = "tourId") int tourId,
 			@RequestBody @Validated RatingDto ratingDto) {
 		LOGGER.info("POST /tours/{}/ratings", tourId);
@@ -68,6 +75,7 @@ public class TourRatingController {
      */
     @PostMapping("/{score}")
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Give same rating to many tours")    
     public void createManyTourRatings(@PathVariable(value = "tourId") int tourId,
                                       @PathVariable(value = "score") int score,
                                       @RequestParam("customers") Integer customers[]) {
@@ -83,6 +91,7 @@ public class TourRatingController {
 	 * @return Requested page of Tour Ratings as RatingDto's
 	 */
 	@GetMapping
+	@Operation(summary = "Gets all ratings for a tour")
 	public Page<RatingDto> getAllRatingsForTour(@PathVariable(value = "tourId") int tourId, Pageable pageable) {
 		verifyTour(tourId);
 		Page<TourRating> ratings = tourRatingRepository.findByTourId(tourId, pageable);
@@ -97,6 +106,7 @@ public class TourRatingController {
 	 * @return Tuple of "average" and the average value.
 	 */
 	@GetMapping(path = "/average")
+	@Operation(summary = "Get average rating for a tour")
 	public Map<String, Double> getAverage(@PathVariable(value = "tourId") int tourId) {
 		verifyTour(tourId);
 		return Map.of("average", tourRatingService.getAverageScore(tourId));
@@ -110,6 +120,7 @@ public class TourRatingController {
 	 * @return The modified Rating DTO.
 	 */
 	@PutMapping
+	@Operation(summary = "Modify all attributes of a rating")
 	public RatingDto updateWithPut(@PathVariable(value = "tourId") int tourId,
 			@RequestBody @Validated RatingDto ratingDto) {
 		LOGGER.info("PUT /tours/{}/ratings", tourId);
@@ -132,6 +143,7 @@ public class TourRatingController {
 	 * @return The modified Rating DTO.
 	 */
 	@PatchMapping
+	@Operation(summary = "Modify some attributes of a rating")
 	public RatingDto updateWithPatch(@PathVariable(value = "tourId") int tourId,
 			@RequestBody @Validated RatingDto ratingDto) {
 		LOGGER.info("PATCH /tours/{}/ratings", tourId);
@@ -146,6 +158,7 @@ public class TourRatingController {
 	 * @param customerId customer identifier
 	 */
 	@DeleteMapping(path = "/{customerId}")
+	@Operation(summary = "Delete a customer's rating of a tour")
 	public void delete(@PathVariable(value = "tourId") int tourId, @PathVariable(value = "customerId") int customerId) {
 		LOGGER.info("DELETE /tours/{}/ratings/{}", tourId, customerId);
         tourRatingService.delete(tourId, customerId);

@@ -2,6 +2,8 @@ package com.example.ec.repo;
 
 import com.example.ec.domain.Tour;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,6 +16,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 /**
  * Tour Repository Interface
  */
+@Tag(name = "Tour Repo", description = "Tour API")
 public interface TourRepository extends PagingAndSortingRepository<Tour, Integer>,CrudRepository<Tour, Integer> {
 //public interface TourRepository extends JpaRepository<Tour, Integer> {	
 	/**

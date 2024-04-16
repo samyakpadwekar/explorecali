@@ -1,6 +1,9 @@
 package com.example.ec.repo;
 
 import com.example.ec.domain.TourRating;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +18,7 @@ import java.util.Optional;
  */
 //to prevent this repo from being exposed to spring data rest,only expose by controller
 @RepositoryRestResource(exported = false)
+@Tag(name = "Tour Rating Repo", description = "Tour Rating API")
 public interface TourRatingRepository extends CrudRepository<TourRating, Integer>,JpaRepository<TourRating, Integer> {
 
     /**

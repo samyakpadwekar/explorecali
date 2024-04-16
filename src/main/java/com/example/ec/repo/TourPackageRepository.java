@@ -2,6 +2,8 @@ package com.example.ec.repo;
 
 import com.example.ec.domain.TourPackage;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
@@ -13,6 +15,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
  *
  */
 @RepositoryRestResource(collectionResourceRel = "packages", path = "packages")
+@Tag(name = "Tour Package Repo", description = "Tour Package API")
 public interface TourPackageRepository extends CrudRepository<TourPackage, String> {
 	/**
 	 * Find Tour Package by name.
