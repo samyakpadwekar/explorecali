@@ -1,7 +1,7 @@
 **Backend for Explore California tour operator.** \
 Tour,Tour Package and Tour Rating functionality. \
 Key Things Implemented: 
-1. **Spring Data REST and Spring Data JPA** for Get,Post,Put,Delete API. 
+1. **Spring Data REST and Spring Data JPA** for Get,Post,Put & Delete API. 
 2. **PagingAndSorting** for Tour and Tour Rating. 
 3. **Controlling API Exposure** - use of @RepositoryRestResource,@RestResource.
 4. **slf4j Logger** for Logging
