@@ -8,8 +8,6 @@ import com.example.ec.repo.TourRepository;
 import com.example.ec.service.TourRatingService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.slf4j.Logger;
@@ -19,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,6 +57,7 @@ public class TourRatingController {
 	 * @param ratingDto rating data transfer object
 	 */
 	@PostMapping
+	@PreAuthorize("hasRole('ROLE_CSR')")
 	@ResponseStatus(HttpStatus.CREATED)
 	@Operation(summary = "Create tour rating")
 	public void createTourRating(@PathVariable(value = "tourId") int tourId,
@@ -74,6 +74,7 @@ public class TourRatingController {
      * @param customers
      */
     @PostMapping("/{score}")
+    @PreAuthorize("hasRole('ROLE_CSR')")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Give same rating to many tours")    
     public void createManyTourRatings(@PathVariable(value = "tourId") int tourId,
@@ -120,6 +121,7 @@ public class TourRatingController {
 	 * @return The modified Rating DTO.
 	 */
 	@PutMapping
+	@PreAuthorize("hasRole('ROLE_CSR')")
 	@Operation(summary = "Modify all attributes of a rating")
 	public RatingDto updateWithPut(@PathVariable(value = "tourId") int tourId,
 			@RequestBody @Validated RatingDto ratingDto) {
@@ -143,6 +145,7 @@ public class TourRatingController {
 	 * @return The modified Rating DTO.
 	 */
 	@PatchMapping
+	@PreAuthorize("hasRole('ROLE_CSR')")
 	@Operation(summary = "Modify some attributes of a rating")
 	public RatingDto updateWithPatch(@PathVariable(value = "tourId") int tourId,
 			@RequestBody @Validated RatingDto ratingDto) {
@@ -158,6 +161,7 @@ public class TourRatingController {
 	 * @param customerId customer identifier
 	 */
 	@DeleteMapping(path = "/{customerId}")
+	@PreAuthorize("hasRole('ROLE_CSR')")
 	@Operation(summary = "Delete a customer's rating of a tour")
 	public void delete(@PathVariable(value = "tourId") int tourId, @PathVariable(value = "customerId") int customerId) {
 		LOGGER.info("DELETE /tours/{}/ratings/{}", tourId, customerId);
