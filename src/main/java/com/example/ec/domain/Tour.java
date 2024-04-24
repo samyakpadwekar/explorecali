@@ -2,15 +2,19 @@ package com.example.ec.domain;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * The Tour contains all attributes of an Explore California Tour.
  */
 @Entity
-public class Tour {
-    @Id
-    @GeneratedValue
+public class Tour implements Serializable{
+	
+    private static final long serialVersionUID = 5292838327203785942L;
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
@@ -71,48 +75,24 @@ public class Tour {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getBlurb() {
         return blurb;
     }
 
-    public void setBlurb(String blurb) {
-        this.blurb = blurb;
-    }
-
     public Integer getPrice() {
         return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
     }
 
     public String getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
     public String getBullets() {
         return bullets;
-    }
-
-    public void setBullets(String bullets) {
-        this.bullets = bullets;
     }
 
     public String getKeywords() {
@@ -123,28 +103,12 @@ public class Tour {
         return tourPackage;
     }
 
-    public void setTourPackage(TourPackage tourPackage) {
-        this.tourPackage = tourPackage;
-    }
-
-    public void setKeywords(String keywords) {
-        this.keywords = keywords;
-    }
-
     public Difficulty getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(Difficulty difficulty) {
-        this.difficulty = difficulty;
-    }
-
     public Region getRegion() {
         return region;
-    }
-
-    public void setRegion(Region region) {
-        this.region = region;
     }
 
     @Override

@@ -3,15 +3,22 @@ package com.example.ec.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * A Classification of Tours.
  *
  */
+@Table(name="tour_package")
 @Entity
-public class TourPackage {
-    @Id
+public class TourPackage implements Serializable {
+    
+	private static final long serialVersionUID = -8706931692186801416L;
+
+	@Id
     private String code;
 
     @Column
