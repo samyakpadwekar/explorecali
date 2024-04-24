@@ -1,8 +1,7 @@
 package com.example.ec.service;
 
 import com.example.ec.domain.TourRating;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,8 +14,9 @@ import java.util.NoSuchElementException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@RunWith(SpringRunner.class)
+
 @SpringBootTest
 @Transactional
 public class TourRatingServiceIntegrationTest {
@@ -36,10 +36,13 @@ public class TourRatingServiceIntegrationTest {
     }
 
     //UnHappy Path, Tour NOT_A_TOUR_ID does not exist
-    @Test(expected = NoSuchElementException.class)
-    public void deleteException() {
-        service.delete(NOT_A_TOUR_ID, 1234);
-    }
+	@Test
+	public void deleteException() {
+		assertThrows(NoSuchElementException.class, () -> {
+			service.delete(NOT_A_TOUR_ID, 1234);
+		});
+
+	}
 
 
     //Happy Path to Create a new Tour Rating
@@ -57,9 +60,11 @@ public class TourRatingServiceIntegrationTest {
     }
 
     //UnHappy Path, Tour NOT_A_TOUR_ID does not exist
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void createNewException() {
-        service.createNew(NOT_A_TOUR_ID, CUSTOMER_ID, 2, "it was fair");
+    	assertThrows(NoSuchElementException.class, () -> {
+            service.createNew(NOT_A_TOUR_ID, CUSTOMER_ID, 2, "it was fair");
+		});
     }
 
     //Happy Path many customers Rate one tour
@@ -71,13 +76,16 @@ public class TourRatingServiceIntegrationTest {
     }
 
     //Unhappy Path, 2nd Invocation would create duplicates in the database, DataIntegrityViolationException thrown
-    @Test(expected = DataIntegrityViolationException.class)
-    public void rateManyProveRollback() {
-        int ratings = service.lookupAll().size();
-        Integer customers[] = {100, 101, 102};
-        service.rateMany(TOUR_ID, 3, customers);
-        service.rateMany(TOUR_ID, 3, customers);
-    }
+	@Test
+	public void rateManyProveRollback() {
+
+		assertThrows(DataIntegrityViolationException.class, () -> {
+			int ratings = service.lookupAll().size();
+			Integer customers[] = { 100, 101, 102 };
+			service.rateMany(TOUR_ID, 3, customers);
+			service.rateMany(TOUR_ID, 3, customers);
+		});
+	}
 
     //Happy Path, Update a Tour Rating already in the database
     @Test
@@ -91,9 +99,11 @@ public class TourRatingServiceIntegrationTest {
     }
 
     //Unhappy path, no Tour Rating exists for tourId=1 and customer=1
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void updateException() throws Exception {
-        service.update(1, 1, 1, "one");
+    	assertThrows(NoSuchElementException.class, () -> {
+            service.update(1, 1, 1, "one");
+		});
     }
 
     //Happy Path, Update a Tour Rating already in the database
@@ -108,9 +118,11 @@ public class TourRatingServiceIntegrationTest {
     }
 
     //Unhappy path, no Tour Rating exists for tourId=1 and customer=1
-    @Test(expected = NoSuchElementException.class)
-    public void updateSomeException() throws Exception {
-        service.update(1, 1, 1, "one");
+    @Test
+    public void updateSomeException() {
+        assertThrows(NoSuchElementException.class, () -> {
+            service.update(1, 1, 1, "one");
+        });
     }
 
     //Happy Path get average score of a Tour.
@@ -120,8 +132,11 @@ public class TourRatingServiceIntegrationTest {
     }
 
     //UnHappy Path, Tour NOT_A_TOUR_ID does not exist
-    @Test(expected = NoSuchElementException.class)
-    public void getAverageScoreException() {
-        service.getAverageScore(NOT_A_TOUR_ID); //That tour does not exist
-    }
+	@Test
+	public void getAverageScoreException() {
+		// That tour does not exist
+		assertThrows(NoSuchElementException.class, () -> {
+			service.getAverageScore(NOT_A_TOUR_ID);
+		});
+	}
 }
