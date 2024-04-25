@@ -19,26 +19,24 @@ jobs:
     name: Unit-Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: 21.0.2
           distribution: 'temurin'
           cache: maven
-      - name: Maven Package
-        run: mvn -B clean package
       - name: Maven Verify
-        run: mvn -B clean verify -DskipTests
+        run: mvn -f pom.xml clean test
   build:
     #Depends on test's job
     needs: tests
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up JDK 21
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         java-version: '21.0.2'
         distribution: 'temurin'
