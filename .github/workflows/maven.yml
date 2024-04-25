@@ -83,4 +83,4 @@ jobs:
         environment_name: Explorecali-env
         version_label: ${{github.SHA}}
         region: us-west-2
-        deployment_package: /target/explorecali.jar
+        deployment_package: explorecali-0.0.1-SNAPSHOT.jar
