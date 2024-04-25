@@ -50,7 +50,7 @@ jobs:
           #Set artifact name
           name: artifact
           #From this path
-          path: target/explorecali.jar
+          path: target/explorecali-0.0.1-SNAPSHOT.jar
   deploy:
     #Depends on build's job
     needs: build
@@ -73,4 +73,4 @@ jobs:
           environment_name: Explorecali-env
           version_label: ${{github.SHA}}
           region: us-west-2
-          deployment_package: target/explorecali.jar
+          deployment_package: target/explorecali-0.0.1-SNAPSHOT.jar
