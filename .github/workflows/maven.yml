@@ -15,22 +15,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 21
-      uses: actions/setup-java@v3
-      with:
-        java-version: '21.0.2'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
-
-  test:
+  tests:
     name: Unit-Test
     runs-on: ubuntu-latest
     steps:
@@ -43,16 +28,49 @@ jobs:
         run: mvn -B clean package
       - name: Maven Verify
         run: mvn -B clean verify -DskipTests
-  sonar:
-    name: Code-Quality Check
+  build:
+    #Depends on test's job
+    needs: tests
+    name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up JDK
-        uses: actions/setup-java@v1
+    - uses: actions/checkout@v3
+    - name: Set up JDK 21
+      uses: actions/setup-java@v3
+      with:
+        java-version: '21.0.2'
+        distribution: 'temurin'
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B package -DskipTests --file pom.xml
+    - name: Upload JAR
+      #This uploads artifacts from your workflow allowing you to share data between jobs and store data once a workflow is complete.
+      uses: actions/upload-artifact@v2
+      with:
+          #Set artifact name
+          name: artifact
+          #From this path
+          path: target/explorecali.jar
+  deploy:
+    #Depends on build's job
+    needs: build
+    name: Deploy
+    #Run on Ubuntu using the latest version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download JAR
+        #Download the artifact which was uploaded in the build's job
+        uses: actions/download-artifact@v2
         with:
-          java-version: 21.0.2
-      - name: SonarCloud Scan
-        run: mvn -B clean verify -Psonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: artifact
+      #Deploy the artifact (JAR) into AWS Beanstalk
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v13
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: Explorecali
+          environment_name: Explorecali-env
+          version_label: ${{github.SHA}}
+          region: us-west-2
+          deployment_package: target/explorecali.jar
