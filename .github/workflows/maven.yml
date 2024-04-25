@@ -59,19 +59,28 @@ jobs:
     #Run on Ubuntu using the latest version
     runs-on: ubuntu-latest
     steps:
-      - name: Download JAR
-        #Download the artifact which was uploaded in the build's job
-        uses: actions/download-artifact@v3
-        with:
-          name: artifact
+      # - name: Download JAR
+      #   #Download the artifact which was uploaded in the build's job
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: artifact
+    - name: Checkout Source
+      uses: actions/checkout@v4
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '21.0.2'
+    - name: Build Project
+      run: mvn clean install -DskipTests
+    - name: Deploy to EB
       #Deploy the artifact (JAR) into AWS Beanstalk
-      - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v13
-        with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: Explorecali
-          environment_name: Explorecali-env
-          version_label: ${{github.SHA}}
-          region: us-west-2
-          deployment_package: /home/runner/work/explorecali_LL/explorecali_LL/explorecali-0.0.1-SNAPSHOT.jar
+      uses: einaregilsson/beanstalk-deploy@v13
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: Explorecali
+        environment_name: Explorecali-env
+        version_label: ${{github.SHA}}
+        region: us-west-2
+        deployment_package: /target/explorecali.jar
