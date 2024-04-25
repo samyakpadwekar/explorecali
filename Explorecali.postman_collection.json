@@ -1,0 +1,694 @@
+{
+	"info": {
+		"_postman_id": "ada75270-cc45-4729-9ca3-59d00e636d5f",
+		"name": "Explorecali",
+		"description": "Beanstalk domain : Explorecali-env.eba-andqkgjd.us-west-2.elasticbeanstalk.com  \n(use inplace of localhost:8080 to test api)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14202942"
+	},
+	"item": [
+		{
+			"name": "TourPackage",
+			"item": [
+				{
+					"name": "findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tourPackages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tourPackages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findByCode",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tourPackages/PP",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tourPackages",
+								"PP"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createTourPackage",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\" : \"PP\" ,\r\n    \"name\" : \"Puneri Pati\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/tourPackages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tourPackages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateTourPackage",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Sundar Pune\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/tourPackages/PP",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tourPackages",
+								"PP"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTourPackage",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tourPackages/BC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tourPackages",
+								"BC"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tourPackages/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tourPackages",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tourPackages/search/findByName?name=Backpack%20Cal",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tourPackages",
+								"search",
+								"findByName"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Backpack%20Cal"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changeEndPoint",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/packages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"packages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTourPackagePostAccessRestriction",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/packages/CC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"packages",
+								"CC"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tours",
+			"item": [
+				{
+					"name": "Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tours/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findByTourPackageCode",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tours/search/findByTourPackageCode?code=CC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours",
+								"search",
+								"findByTourPackageCode"
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "CC"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tours",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pagingAndSorting",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tours?size=3&page=1&sort=title,asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "3"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "sort",
+									"value": "title,asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sortingInfindByTourPackageCode",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tours/search/findByTourPackageCode?code=CC&size=2&sort=title,asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours",
+								"search",
+								"findByTourPackageCode"
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "CC"
+								},
+								{
+									"key": "size",
+									"value": "2"
+								},
+								{
+									"key": "sort",
+									"value": "title,asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tours/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findSummaryByTourPackageCode(Mongo)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tours/search/findSummaryByTourPackageCode?code=CC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours",
+								"search",
+								"findSummaryByTourPackageCode"
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "CC"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TourRating",
+			"item": [
+				{
+					"name": "createRating",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"score\":1,\r\n    \"comment\":\"It was worse\",\r\n    \"customerId\":7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/tours/6606cdf5af9f954ca95e4e1d/ratings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours",
+								"6606cdf5af9f954ca95e4e1d",
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRating",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tours/6606cdf5af9f954ca95e4e1d/ratings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours",
+								"6606cdf5af9f954ca95e4e1d",
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAverageRating",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tours/2/ratings/average",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours",
+								"2",
+								"ratings",
+								"average"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateRating(put)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"score\":1,\r\n    \"comment\":\"It was worse\",\r\n    \"customerId\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/tours/2/ratings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours",
+								"2",
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateRating(patch)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"score\":2,\r\n    \"comment\":\"It was worse\",\r\n    \"customerId\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/tours/2/ratings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours",
+								"2",
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteRating",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tours/2/ratings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours",
+								"2",
+								"ratings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PagingAndSorting-getRating",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tours/2/ratings?size=2&page=1&sort=score,desc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours",
+								"2",
+								"ratings"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "2"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "sort",
+									"value": "score,desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateManyTourRatings",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tours/3/ratings/3?customers=4,5,6,7,3,8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tours",
+								"3",
+								"ratings",
+								"3"
+							],
+							"query": [
+								{
+									"key": "customers",
+									"value": "4,5,6,7,3,8"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Signup/Signin",
+			"item": [
+				{
+					"name": "signin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"wally\",\n    \"password\":\"letmein\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://Explorecali-env.eba-andqkgjd.us-west-2.elasticbeanstalk.com/users/signin",
+							"protocol": "http",
+							"host": [
+								"Explorecali-env",
+								"eba-andqkgjd",
+								"us-west-2",
+								"elasticbeanstalk",
+								"com"
+							],
+							"path": [
+								"users",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "getUser",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3YWxseSIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0seyJhdXRob3JpdHkiOiJST0xFX0NTUiJ9XSwiaWF0IjoxNzE0MDQ1ODYxLCJleHAiOjE3MTQwNDY0NjF9.7zucd1xyLnK6hwTcH-Imf1ITSW8rvD4lrWdkDVPpCb0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
