@@ -64,15 +64,6 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: artifact
-    # - name: Checkout Source
-    #   uses: actions/checkout@v4
-    # - name: Setup Java
-    #   uses: actions/setup-java@v4
-    #   with:
-    #     distribution: 'temurin'
-    #     java-version: '21.0.2'
-    # - name: Build Project
-    #   run: mvn clean install -DskipTests
     - name: Deploy to EB
       #Deploy the artifact (JAR) into AWS Beanstalk
       uses: einaregilsson/beanstalk-deploy@v13
@@ -83,5 +74,6 @@ jobs:
         environment_name: Explorecali-env
         version_label: ${{github.SHA}}
         region: us-west-2
+        use_existing_version_if_available: true
         deployment_package: explorecali-0.0.1-SNAPSHOT.jar
-        wait_for_environment_recovery: 90
+        wait_for_environment_recovery: 120
