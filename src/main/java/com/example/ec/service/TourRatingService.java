@@ -157,14 +157,14 @@ public class TourRatingService {
      * @param score
      * @param customers
      */
-    public void rateMany(int tourId,  int score, Integer [] customers) {
-        LOGGER.info("Rate tour {} by customers {}", tourId, Arrays.asList(customers).toString());
-        Tour tour = tourRepository.findById(tourId).orElseThrow(() -> new NoSuchElementException());
-        for (Integer c : customers) {
-                LOGGER.debug("Attempt to create Tour Rating for customer {}", c);
-                tourRatingRepository.save(new TourRating(tour, c, score));
-        }
-    }
+	public void rateMany(int tourId, int score, Integer[] customers) {
+		LOGGER.info("Rate tour {} by customers {}", tourId, Arrays.toString(customers));
+		Tour tour = tourRepository.findById(tourId).orElseThrow(() -> new NoSuchElementException());
+		for (Integer c : customers) {
+			LOGGER.debug("Attempt to create Tour Rating for customer {}", String.valueOf(c));
+			tourRatingRepository.save(new TourRating(tour, c, score));
+		}
+	}
 	
 	/**
 	 * Verify and return the TourRating for a particular tourId and Customer
