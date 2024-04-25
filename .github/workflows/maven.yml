@@ -48,10 +48,10 @@ jobs:
     - name: Show contents of the target directory
       run: ls -la target
     - name: Upload Maven build artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: artifact
-        path: ./target/explorecali-0.0.1-SNAPSHOT.jar
+        path: /target/explorecali-0.0.1-SNAPSHOT.jar
   deploy:
     #Depends on build's job
     needs: build
@@ -59,20 +59,20 @@ jobs:
     #Run on Ubuntu using the latest version
     runs-on: ubuntu-latest
     steps:
-      # - name: Download JAR
-      #   #Download the artifact which was uploaded in the build's job
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: artifact
-    - name: Checkout Source
-      uses: actions/checkout@v4
-    - name: Setup Java
-      uses: actions/setup-java@v4
+    - name: Download JAR
+      #Download the artifact which was uploaded in the build's job
+      uses: actions/download-artifact@v4
       with:
-        distribution: 'temurin'
-        java-version: '21.0.2'
-    - name: Build Project
-      run: mvn clean install -DskipTests
+        name: artifact
+    # - name: Checkout Source
+    #   uses: actions/checkout@v4
+    # - name: Setup Java
+    #   uses: actions/setup-java@v4
+    #   with:
+    #     distribution: 'temurin'
+    #     java-version: '21.0.2'
+    # - name: Build Project
+    #   run: mvn clean install -DskipTests
     - name: Deploy to EB
       #Deploy the artifact (JAR) into AWS Beanstalk
       uses: einaregilsson/beanstalk-deploy@v13
