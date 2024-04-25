@@ -1,9 +1,10 @@
 DROP TABLE IF EXISTS tour_rating;
 DROP TABLE IF EXISTS tour;
 DROP TABLE IF EXISTS tour_package;
+DROP TABLE IF EXISTS user_role;
 DROP TABLE IF EXISTS security_role;
 DROP TABLE IF EXISTS security_user;
-DROP TABLE IF EXISTS user_role;
+
 
 CREATE TABLE security_role (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,

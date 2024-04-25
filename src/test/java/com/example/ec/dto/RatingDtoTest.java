@@ -2,8 +2,6 @@ package com.example.ec.dto;
 
 import org.junit.Test;
 
-import com.example.ec.dto.RatingDto;
-
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 

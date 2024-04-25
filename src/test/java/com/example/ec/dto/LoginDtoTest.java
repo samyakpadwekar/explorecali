@@ -2,8 +2,6 @@ package com.example.ec.dto;
 
 import org.junit.jupiter.api.Test;
 
-import com.example.ec.dto.LoginDto;
-
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 

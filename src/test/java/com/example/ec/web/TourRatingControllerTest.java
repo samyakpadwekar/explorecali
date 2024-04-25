@@ -78,7 +78,6 @@ public class TourRatingControllerTest {
     /**
      *  HTTP POST /tours/{tourId}/ratings
      */
-    @SuppressWarnings("unchecked")
 	@Test
     public void createTourRating() throws Exception {
 
