@@ -9,8 +9,9 @@ Key Things Implemented:
 6. **JUnit and Mockito** for Unit, Integration and API Test cases. 
 7. **HAL Browser** for testing.
 8. **Open API** for API documentation. 
-9. **H2 embedded DB** as Relational DB
-10. **CommandLineRunner** for loading TourPackage and Tour data and testing through command line.
+9. **H2 embedded DB** as Relational DB.
+10. **Github Actions** for CI/CD.
+11. **CommandLineRunner** for loading TourPackage and Tour data and testing through command line.
 
 Things to do:
 1. Dockerization
