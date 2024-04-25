@@ -16,7 +16,7 @@ on:
 
 jobs:
   tests:
-    name: Unit-Test
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -41,16 +41,17 @@ jobs:
         java-version: '21.0.2'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
+    - name: Build and package project
       run: mvn -B package -DskipTests --file pom.xml
-    - name: Upload JAR
-      #This uploads artifacts from your workflow allowing you to share data between jobs and store data once a workflow is complete.
+    - name: Show contents of the current working directory
+      run: ls -la
+    - name: Show contents of the target directory
+      run: ls -la target
+    - name: Upload Maven build artifact
       uses: actions/upload-artifact@v3
       with:
-          #Set artifact name
-          name: artifact
-          #From this path
-          path: target/explorecali-0.0.1-SNAPSHOT.jar
+        name: artifact
+        path: ./target/explorecali-0.0.1-SNAPSHOT.jar
   deploy:
     #Depends on build's job
     needs: build
@@ -73,4 +74,4 @@ jobs:
           environment_name: Explorecali-env
           version_label: ${{github.SHA}}
           region: us-west-2
-          deployment_package: target/explorecali-0.0.1-SNAPSHOT.jar
+          deployment_package: ./target/explorecali-0.0.1-SNAPSHOT.jar
