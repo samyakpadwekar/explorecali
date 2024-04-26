@@ -59,11 +59,15 @@ jobs:
     #Run on Ubuntu using the latest version
     runs-on: ubuntu-latest
     steps:
-    - name: Download JAR
-      #Download the artifact which was uploaded in the build's job
-      uses: actions/download-artifact@v3
-      with:
-        name: artifact
+    - name: Checkout source code
+      uses: actions/checkout@v4
+    - name: Generate deployment package
+      run: zip -r deploy.zip . -x '*.git*'
+    # - name: Download JAR
+    #   #Download the artifact which was uploaded in the build's job
+    #   uses: actions/download-artifact@v3
+    #   with:
+    #     name: artifact
     - name: Deploy to EB
       #Deploy the artifact (JAR) into AWS Beanstalk
       uses: einaregilsson/beanstalk-deploy@v13
