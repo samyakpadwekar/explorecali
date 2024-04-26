@@ -4,8 +4,9 @@ import com.example.ec.domain.Tour;
 import com.example.ec.domain.TourRating;
 import com.example.ec.dto.RatingDto;
 import com.example.ec.service.TourRatingService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
+
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.Arrays;
@@ -31,6 +31,8 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.HttpMethod.*;
+
 
 /**
  *
@@ -66,7 +68,7 @@ public class TourRatingControllerTest {
 
     private RatingDto ratingDto = new RatingDto(SCORE, COMMENT,CUSTOMER_ID);
 
-    @BeforeEach
+    @Before
     public void setupReturnValuesOfMockMethods() {
         when(tourRatingMock.getComment()).thenReturn(COMMENT);
         when(tourRatingMock.getScore()).thenReturn(SCORE);
@@ -78,10 +80,10 @@ public class TourRatingControllerTest {
     /**
      *  HTTP POST /tours/{tourId}/ratings
      */
-	@Test
+    @Test
     public void createTourRating() throws Exception {
 
-        restTemplate.exchange(TOUR_RATINGS_URL, HttpMethod.POST,
+        restTemplate.exchange(TOUR_RATINGS_URL, POST,
                 new HttpEntity<>(ratingDto, jwtRequestHelper.withRole("ROLE_CSR")),
                 Void.class);
 
@@ -94,7 +96,7 @@ public class TourRatingControllerTest {
     @Test
     public void delete() throws Exception {
 
-        restTemplate.exchange(TOUR_RATINGS_URL + "/" + CUSTOMER_ID, HttpMethod.DELETE,
+        restTemplate.exchange(TOUR_RATINGS_URL + "/" + CUSTOMER_ID, DELETE,
                 new HttpEntity<>(jwtRequestHelper.withRole("ROLE_CSR")), Void.class);
 
         verify(serviceMock).delete(TOUR_ID, CUSTOMER_ID);
@@ -105,7 +107,7 @@ public class TourRatingControllerTest {
      */
     @Test
     public void createManyTourRatings() throws Exception {
-        restTemplate.exchange(TOUR_RATINGS_URL + "/" + SCORE + "?customers=" + CUSTOMER_ID, HttpMethod.POST,
+        restTemplate.exchange(TOUR_RATINGS_URL + "/" + SCORE + "?customers=" + CUSTOMER_ID, POST,
                 new HttpEntity<>(ratingDto, jwtRequestHelper.withRole("ROLE_CSR")), Void.class);
 
         verify(serviceMock).rateMany(TOUR_ID, SCORE, new Integer[] {CUSTOMER_ID});
@@ -146,7 +148,7 @@ public class TourRatingControllerTest {
     public void updateWithPut() throws Exception {
         when(serviceMock.update(TOUR_ID, CUSTOMER_ID, SCORE, COMMENT)).thenReturn(tourRatingMock);
 
-        restTemplate.exchange(TOUR_RATINGS_URL, HttpMethod.PUT,
+        restTemplate.exchange(TOUR_RATINGS_URL, PUT,
                 new HttpEntity<>(ratingDto, jwtRequestHelper.withRole("ROLE_CSR")), Void.class);
 
         verify(serviceMock).update(TOUR_ID, CUSTOMER_ID, SCORE, COMMENT);
@@ -168,12 +170,12 @@ public class TourRatingControllerTest {
      *      restTemplate.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory());
      */
     @Test
-    @Disabled
+    @Ignore
     public  void updateWithPatch() {
 
         when(serviceMock.updateSome(TOUR_ID, CUSTOMER_ID, SCORE, COMMENT)).thenReturn(tourRatingMock);
 
-        restTemplate.exchange(TOUR_RATINGS_URL, HttpMethod.PATCH,
+        restTemplate.exchange(TOUR_RATINGS_URL, PATCH,
                 new HttpEntity<>(ratingDto, jwtRequestHelper.withRole("ROLE_CSR")), Void.class);
 
         verify(serviceMock).updateSome(TOUR_ID, CUSTOMER_ID, SCORE, COMMENT);

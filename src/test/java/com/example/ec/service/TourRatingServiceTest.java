@@ -4,11 +4,13 @@ import com.example.ec.domain.Tour;
 import com.example.ec.domain.TourRating;
 import com.example.ec.repo.TourRatingRepository;
 import com.example.ec.repo.TourRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,6 +21,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class TourRatingServiceTest {
 
     private static final int CUSTOMER_ID = 123;
@@ -42,7 +45,7 @@ public class TourRatingServiceTest {
     /**
      * Mock responses to commonly invoked methods.
      */
-    @BeforeEach
+    @Before
     public void setupReturnValuesOfMockMethods() {
         when(tourRepositoryMock.findById(TOUR_ID)).thenReturn(Optional.of(tourMock));
         when(tourMock.getId()).thenReturn(TOUR_ID);

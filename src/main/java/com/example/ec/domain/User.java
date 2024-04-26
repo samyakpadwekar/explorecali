@@ -42,7 +42,7 @@ public class User {
     /**
      * Default Constructor.
      */
-    protected User() {
+    public User() {
     }
 
     @ManyToMany(fetch = FetchType.EAGER)

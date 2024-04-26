@@ -4,7 +4,8 @@ import com.example.ec.domain.Tour;
 import com.example.ec.domain.TourRating;
 import com.example.ec.dto.RatingDto;
 import com.example.ec.service.TourRatingService;
-import org.junit.jupiter.api.BeforeEach;
+
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class RatingControllerTest {
     private TestRestTemplate restTemplate;
 
 
-    @BeforeEach
+    @Before
     public void setupReturnValuesOfMockMethods() {
         when(tourRatingMock.getTour()).thenReturn(tourMock);
         when(tourMock.getId()).thenReturn(TOUR_ID);
@@ -94,17 +95,15 @@ public class RatingControllerTest {
         assertThat(response.getBody().getComment(), is(COMMENT));
         assertThat(response.getBody().getScore(), is(SCORE));
     }
-    
-    
     @Test
-    public void getOne_notFound()  {
-
-        when(tourRatingServiceMock.lookupRatingById(RATING_ID)).thenReturn(Optional.empty());
+    public void getOne_notFound() {
+        when(tourRatingServiceMock.lookupRatingById(RATING_ID))
+                .thenReturn(Optional.empty());
 
         ResponseEntity<String> response =
                 restTemplate.getForEntity(RATINGS_URL + "/" + RATING_ID, String.class);
-
         assertThat(response.getStatusCode(), is(HttpStatus.NOT_FOUND));
-        assertThat(response.getBody(), containsString("Not Found"));	
+        assertThat(response.getBody(),
+                containsString("Rating " + RATING_ID + " not found"));
     }
 }

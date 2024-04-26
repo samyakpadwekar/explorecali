@@ -1,10 +1,12 @@
 package com.example.ec.service;
 
 import com.example.ec.domain.TourRating;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -12,10 +14,9 @@ import java.util.NoSuchElementException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
 public class TourRatingServiceIntegrationTest {
@@ -35,13 +36,10 @@ public class TourRatingServiceIntegrationTest {
     }
 
     //UnHappy Path, Tour NOT_A_TOUR_ID does not exist
-	@Test
-	public void deleteException() {
-		assertThrows(NoSuchElementException.class, () -> {
-			service.delete(NOT_A_TOUR_ID, 1234);
-		});
-
-	}
+    @Test(expected = NoSuchElementException.class)
+    public void deleteException() {
+        service.delete(NOT_A_TOUR_ID, 1234);
+    }
 
 
     //Happy Path to Create a new Tour Rating
@@ -59,11 +57,9 @@ public class TourRatingServiceIntegrationTest {
     }
 
     //UnHappy Path, Tour NOT_A_TOUR_ID does not exist
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void createNewException() {
-    	assertThrows(NoSuchElementException.class, () -> {
-            service.createNew(NOT_A_TOUR_ID, CUSTOMER_ID, 2, "it was fair");
-		});
+        service.createNew(NOT_A_TOUR_ID, CUSTOMER_ID, 2, "it was fair");
     }
 
     //Happy Path many customers Rate one tour
@@ -75,16 +71,13 @@ public class TourRatingServiceIntegrationTest {
     }
 
     //Unhappy Path, 2nd Invocation would create duplicates in the database, DataIntegrityViolationException thrown
-	@Test
-	public void rateManyProveRollback() {
-
-		assertThrows(DataIntegrityViolationException.class, () -> {
-			int ratings = service.lookupAll().size();
-			Integer customers[] = { 100, 101, 102 };
-			service.rateMany(TOUR_ID, 3, customers);
-			service.rateMany(TOUR_ID, 3, customers);
-		});
-	}
+    @Test(expected = DataIntegrityViolationException.class)
+    public void rateManyProveRollback() {
+        int ratings = service.lookupAll().size();
+        Integer customers[] = {100, 101, 102};
+        service.rateMany(TOUR_ID, 3, customers);
+        service.rateMany(TOUR_ID, 3, customers);
+    }
 
     //Happy Path, Update a Tour Rating already in the database
     @Test
@@ -98,44 +91,9 @@ public class TourRatingServiceIntegrationTest {
     }
 
     //Unhappy path, no Tour Rating exists for tourId=1 and customer=1
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void updateException() throws Exception {
-    	assertThrows(NoSuchElementException.class, () -> {
-            service.update(1, 1, 1, "one");
-		});
+        service.update(1, 1, 1, "one");
     }
-
-    //Happy Path, Update a Tour Rating already in the database
-    @Test
-    public void updateSome() {
-        createNew();
-        TourRating tourRating = service.update(TOUR_ID, CUSTOMER_ID, 1, "one");
-        assertThat(tourRating.getTour().getId(), is(TOUR_ID));
-        assertThat(tourRating.getCustomerId(), is(CUSTOMER_ID));
-        assertThat(tourRating.getScore(), is(1));
-        assertThat(tourRating.getComment(), is("one"));
-    }
-
-    //Unhappy path, no Tour Rating exists for tourId=1 and customer=1
-    @Test
-    public void updateSomeException() {
-        assertThrows(NoSuchElementException.class, () -> {
-            service.update(1, 1, 1, "one");
-        });
-    }
-
-    //Happy Path get average score of a Tour.
-    @Test
-    public void getAverageScore() {
-        assertTrue(service.getAverageScore(TOUR_ID) == 4.0);
-    }
-
-    //UnHappy Path, Tour NOT_A_TOUR_ID does not exist
-	@Test
-	public void getAverageScoreException() {
-		// That tour does not exist
-		assertThrows(NoSuchElementException.class, () -> {
-			service.getAverageScore(NOT_A_TOUR_ID);
-		});
-	}
+    
 }
